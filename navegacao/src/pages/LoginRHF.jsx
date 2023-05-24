@@ -1,8 +1,13 @@
 import {useForm} from 'react-hook-form'
+import { useNavigate } from 'react-router'
+import { useContext } from 'react'
+import UserContext from '../contexts/UserContext'
 
 export default function LoginRHF (props) {
     const form = useForm()
     const {register, handleSubmit, formState: {errors}} = form
+    const {handleLogin} = useContext(UserContext)
+    const navigate = useNavigate()
     
     const validaEmail = {
         required: {
@@ -15,11 +20,16 @@ export default function LoginRHF (props) {
         required: {
             value: true, 
             message: "Senha é obrigatório"
+        },
+        minLength: {
+            value: 8, 
+            message: "Senha deve ter no mínimo 8 caracteres"
         }
     }
 
     function onSubmit(data) {
-        props.onSubmit()
+        handleLogin()
+        navigate("/")
     }
 
 
